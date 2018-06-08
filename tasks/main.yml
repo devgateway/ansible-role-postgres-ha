@@ -4,8 +4,8 @@
     name: devgateway.postgres-replication
   vars:
     pg_version: "{{ pgha_postgres.version }}"
-    pgrs_master: "{{ pgha_master }}"
-    pgrs_slave: "{{ pgha_slave }}"
+    pgrs_master: "{{ ansible_play_batch | sort | first }}"
+    pgrs_slave: "{{ ansible_play_batch | sort | last }}"
     pgrs_virtual_ip: "{{ pgha_virtual_ip }}"
     pgrs_data_dir: "{{ pgha_postgres.data_dir }}"
     pgrs_bin_dir: "{{ pgha_postgres.bin_dir }}"
@@ -81,7 +81,7 @@
               psql: "{{ pgha_postgres.bin_dir }}/psql"
               pgdata: "{{ pgha_postgres.data_dir }}"
               rep_mode: sync
-              node_list: "{{ pgha_master }} {{ pgha_slave }}"
+              node_list: "{{ ansible_play_batch | sort | join(' ') }}"
               restore_command: "{{ pgha_postgres.restore_command }}"
               master_ip: "{{ pgha_virtual_ip }}"
               restart_on_promote: "true"
