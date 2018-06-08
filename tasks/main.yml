@@ -19,6 +19,12 @@
       method: md5
       password: "{{ pgha_repl_passwd }}"
 
+- name: Disable and stop Postgres service
+  service:
+    name: "{{ pgha_postgres.service }}"
+    enabled: false
+    state: stopped
+
 - name: Set up high availability
   include_role:
     name: devgateway.pacemaker
