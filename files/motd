@@ -1,0 +1,5 @@
+To view cluster status:
+pcs status
+
+To reset a stopped slave:
+su -c pg_slave_init.sh postgres && rm -f /var/lib/pgsql/tmp/PGSQL.lock && pcs resource cleanup

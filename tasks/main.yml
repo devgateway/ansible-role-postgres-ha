@@ -128,3 +128,9 @@
         then-action: stop
         symmetrical: false
         score: 0
+
+- name: Replace MOTD
+  copy:
+    src: motd
+    dest: /etc/motd
+  when: pgha_replace_motd

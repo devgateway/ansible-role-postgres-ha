@@ -13,3 +13,4 @@ pgha_pcmk_monitoring_intervals:
   virtual_ip: 10
   master: 3
   slave: 7
+pgha_replace_motd: true
