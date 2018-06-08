@@ -1,5 +1,5 @@
 ---
-- name: Configure PG cluster
+- name: Configure Postgres replica set
   include_role:
     name: devgateway.postgres-replication
   vars:
@@ -24,7 +24,7 @@
     name: devgateway.pacemaker
   vars:
     pacemaker_pretty_xml: true
-    pacemaker_password: "{{ pgha_pcmk_passwd | mandatory }}"
+    pacemaker_password: "{{ pgha_pcmk_passwd }}"
     pacemaker_cluster_name: "{{ pgha_pcmk_cluster_name }}"
     pacemaker_cluster_options:
       stonith-enabled: false
@@ -71,38 +71,37 @@
               provider: heartbeat
               type: pgsql
             options:
-              pgctl: "{{ pgha_bin_dir }}/pg_ctl"
-              psql: "{{ pgha_bin_dir }}/psql"
-              pgdata: "{{ pgha_data_dir }}"
+              pgctl: "{{ pgha_postgres.bin_dir }}/pg_ctl"
+              psql: "{{ pgha_postgres.bin_dir }}/psql"
+              pgdata: "{{ pgha_postgres.data_dir }}"
               rep_mode: sync
               node_list: "{{ pgha_master }} {{ pgha_slave }}"
-              restore_command: "{{ pgha_recovery_settings.restore_command }}"
+              restore_command: "{{ pgha_postgres.restore_command }}"
               master_ip: "{{ pgha_virtual_ip }}"
               restart_on_promote: "true"
-              repuser: "{{ pgha_user.name }}"
+              repuser: "{{ pgha_repl_user }}"
             op:
-              - action: start
-                options:
-                  on_fail: restart
-              - action: monitor
-                options:
-                  interval: "{{ pgha_pcmk_default_op_timeout.slave }}s"
-                  on_fail: restart
-              - action: monitor
-                options:
-                  role: Master
-                  interval: "{{ pgha_pcmk_default_op_timeout.master }}s"
-                  on_fail: restart
-              - action: promote
-                options:
-                  on_fail: restart
-              - action: demote
-                options:
-                  on_fail: stop
-              - action: stop
-                options:
-                  on_fail: block
-              - action: notify
+              - name: start
+                on-fail: restart
+                interval: 0s
+              - name: monitor
+                interval: "{{ pgha_pcmk_monitoring_intervals.slave }}s"
+                on-fail: restart
+              - name: monitor
+                role: Master
+                interval: "{{ pgha_pcmk_monitoring_intervals.master }}s"
+                on-fail: restart
+              - name: promote
+                on-fail: restart
+                interval: 0s
+              - name: demote
+                on-fail: stop
+                interval: 0s
+              - name: stop
+                on-fail: block
+                interval: 0s
+              - name: notify
+                interval: 0s
     pacemaker_constraints:
       - type: colocation
         rsc: virtual-ip

@@ -5,6 +5,7 @@ pgha_postgres:
   bin_dir: /usr/pgsql-9.4/bin
   archive_dir: /var/lib/pgsql/9.4/archive
   service: postgresql-9.4
+  restore_command: cp /var/lib/pgsql/9.4/archive/%f %p
 pgha_repl_user: replication
 pgha_pcmk_cluster_name: postgres
 pgha_pcmk_default_op_timeout: 60
