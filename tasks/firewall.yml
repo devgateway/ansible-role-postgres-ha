@@ -1,0 +1,13 @@
+---
+- name: Install Firewalld
+  package:
+    name: firewalld
+
+- name: Configure firewall zones
+  firewalld:
+    service: "{{ item }}"
+    state: enabled
+    permanent: true
+  loop:
+    - postgresql
+    - high-availability

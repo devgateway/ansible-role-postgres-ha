@@ -14,3 +14,4 @@ pgha_pcmk_monitoring_intervals:
   master: 3
   slave: 7
 pgha_replace_motd: true
+pgha_configure_firewall: true

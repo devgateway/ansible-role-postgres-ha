@@ -1,4 +1,8 @@
 ---
+- name: Configure firewall
+  include_tasks: firewall.yml
+  when: pgha_configure_firewall
+
 - name: Configure Postgres replica set
   include_role:
     name: devgateway.postgres-replication
