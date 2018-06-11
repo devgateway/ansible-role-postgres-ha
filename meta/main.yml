@@ -1,0 +1,24 @@
+galaxy_info:
+  author: Development Gateway
+  description: >-
+    Wrapper role to set up a two-node replicating Postgres cluster, and configure firewall.
+  company: Development Gateway
+  license: GPLv3
+  min_ansible_version: 2.5
+  platforms:
+    - name: EL
+      versions:
+        - 7
+
+  galaxy_tags:
+    - pacemaker
+    - postgresql
+    - postgres
+    - ha
+    - cluster
+    - replication
+    - database
+
+dependencies:
+  - devgateway.postgres-replication
+  - devgateway.pacemaker
