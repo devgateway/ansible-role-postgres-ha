@@ -18,7 +18,3 @@ galaxy_info:
     - cluster
     - replication
     - database
-
-dependencies:
-  - devgateway.postgres-replication
-  - devgateway.pacemaker
