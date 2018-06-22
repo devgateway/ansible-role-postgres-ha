@@ -15,7 +15,8 @@
   vars:
     pgrs_master: "{{ ansible_play_batch | sort | first }}"
     pgrs_slave: "{{ ansible_play_batch | sort | last }}"
-    pgrs_virtual_ip: "{{ pgha_virtual_ip }}"
+    pgrs_replica_set_master: "{{ pgha_virtual_ip }}"
+    pgrs_pgpass_hosts: "{{ ansible_play_batch + [pgha_virtual_ip] }}"
     pgrs_data_dir: "{{ pgha_postgres.data_dir }}"
     pgrs_bin_dir: "{{ pgha_postgres.bin_dir }}"
     pgrs_archive_dir: "{{ pgha_postgres.archive_dir }}"
