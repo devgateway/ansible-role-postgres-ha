@@ -1,4 +1,10 @@
 ---
+- name: Install Postgres
+  include_role:
+    name: devgateway.vendor-postgres
+  vars:
+    pg_version: "{{ pgha_postgres.version }}"
+
 - name: Configure firewall
   include_tasks: firewall.yml
   when: pgha_configure_firewall
@@ -7,7 +13,6 @@
   include_role:
     name: devgateway.postgres-replication
   vars:
-    pg_version: "{{ pgha_postgres.version }}"
     pgrs_master: "{{ ansible_play_batch | sort | first }}"
     pgrs_slave: "{{ ansible_play_batch | sort | last }}"
     pgrs_virtual_ip: "{{ pgha_virtual_ip }}"
