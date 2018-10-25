@@ -100,6 +100,7 @@
               - name: start
                 on-fail: restart
                 interval: 0s
+                timeout: "{{ pgha_pcmk_default_op_timeout }}s"
               - name: monitor
                 interval: "{{ pgha_pcmk_monitoring_intervals.slave }}s"
                 on-fail: restart
@@ -110,12 +111,15 @@
               - name: promote
                 on-fail: restart
                 interval: 0s
+                timeout: "{{ pgha_pcmk_default_op_timeout }}s"
               - name: demote
                 on-fail: stop
                 interval: 0s
+                timeout: "{{ pgha_pcmk_default_op_timeout }}s"
               - name: stop
                 on-fail: block
                 interval: 0s
+                timeout: "{{ pgha_pcmk_default_op_timeout }}s"
               - name: notify
                 interval: 0s
     pacemaker_constraints:
